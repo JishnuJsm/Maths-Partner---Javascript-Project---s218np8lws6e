@@ -2,7 +2,7 @@ const searchBtn = document.querySelector(".search-btn")
 const input = document.querySelector(".input")
 const operation = document.querySelector("#operation")
 const savedBtn = document.querySelector(".save-btn")
-const currentSolution = document.querySelector(".saved-solutions")
+const currentSolution = document.querySelector(".current-solutions")
 const savedSolution = document.querySelector(".solution-tab")
 const btn = document.querySelector(".close")
 
@@ -69,7 +69,7 @@ function renderUi(){
 
 savedBtn.addEventListener("click",()=>{
     savedSolution.innerHTML = ""
-    document.querySelector(".solution").style.display = "block"
+    document.querySelector(".saved-solution").style.display = "block"
     renderUi()
 })
 
@@ -87,7 +87,7 @@ function deleteOperation(){
                 }
                 else{
                     localStorage.removeItem("solution")
-                    document.querySelector(".solution").style.display = "none"
+                    document.querySelector(".saved-solution").style.display = "none"
                 }
                 savedSolution.innerHTML = ""
                 renderUi()
@@ -97,5 +97,7 @@ function deleteOperation(){
 }
 
 btn.addEventListener("click",()=>{
-    document.querySelector(".solution").style.display = "none"
+    document.querySelector(".saved-solution").style.display = "none"
 })
+
+
