@@ -52,6 +52,30 @@
             
         </div>
     </div>
+    <div class="form-div">
+        <form class="form" onSubmit="return false">
+            <h3 class="form-title">SignIn / SignUp</h3>
+            <div class="inputs name">
+                <label for="name">Name:</label>
+                <input autofocus required type="text" id="name" placeholder="Enter your name...">
+            </div>
+            <div class="inputs">
+                <label for="email">Email:</label>
+                <input required type="email" id="email" placeholder="abc@gmail.com">
+            </div>
+            <div class="inputs">
+                <label for="password">Password:</label>
+                <input required type="password" id="password" placeholder="Enter your password...">
+            </div>
+            <div class="inputs">
+                <input type="submit" id="submit" value="SignIn"></input>
+            </div>
+            <div class="inputs">
+                <p class="olduser">Already User? <a href="#" id="login">Login here ...</a></p>
+                <p  class="newuser hidden">New User? <a href="#" id="register">Register here ...</a></p>
+            </div>
+        </form>
+    </div>
 
     <script src="https://kit.fontawesome.com/ad2987ace2.js" crossorigin="anonymous"></script>
     <script src="App.js"></script>
