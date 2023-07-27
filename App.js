@@ -100,4 +100,46 @@ btn.addEventListener("click",()=>{
     document.querySelector(".saved-solution").style.display = "none"
 })
 
+//Form
+
+const title = document.querySelector(".form-title")
+const namediv = document.querySelector(".name")
+const name = document.querySelector("#name")
+const email = document.querySelector("#email")
+const pass = document.querySelector("#password")
+const login = document.querySelector("#login")
+const register = document.querySelector("#register")
+const submit = document.querySelector("#submit")
+const olduser = document.querySelector(".olduser")
+const newuser = document.querySelector(".newuser")
+const formdiv = document.querySelector(".form-div")
+const form = document.querySelector(".form")
+
+register.addEventListener("click", (e)=>{
+    e.preventDefault()
+    title.innerHTML="SignIn / SignUp"
+    namediv.classList.remove("hidden")
+    submit.value = "Register"
+    olduser.classList.remove("hidden")
+    newuser.classList.add("hidden")
+    name.value = ""
+})
+
+login.addEventListener("click", (e)=>{
+    e.preventDefault()
+    title.innerHTML="Login"
+    namediv.classList.add("hidden")
+    submit.value = "Login"
+    olduser.classList.add("hidden")
+    newuser.classList.remove("hidden")
+    name.value = "User"
+})
+
+form.addEventListener("submit", ()=>{
+    formdiv.style.backgroundColor = "transparent"
+    formdiv.innerHTML = `<h2 class="loginstate">Hello ${name.value}, You ${submit.value == "SignIn" ? "Registered" : "Logged in"} Succesfully!</h2>`
+    setTimeout(()=>{
+        formdiv.classList.add("hidden")
+    },1000)
+})
 
