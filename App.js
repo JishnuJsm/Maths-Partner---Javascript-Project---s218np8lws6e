@@ -140,6 +140,6 @@ form.addEventListener("submit", ()=>{
     formdiv.innerHTML = `<h2 class="loginstate">Hello ${name.value}, You ${submit.value == "SignIn" ? "Registered" : "Logged in"} Succesfully!</h2>`
     setTimeout(()=>{
         formdiv.classList.add("hidden")
-    },1000)
+    },2000)
 })
 
