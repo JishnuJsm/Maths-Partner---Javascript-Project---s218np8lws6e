@@ -8,16 +8,24 @@ const btn = document.querySelector(".close")
 
 let savedsolution = document.querySelectorAll(".solution-div") 
 let deletebtn = document.querySelectorAll(".fa-trash-can")
+let viewmore = document.querySelector(".viewmore")
+let closebtn = document.querySelector(".close-sample")
 
 let expression
 let solutions = []
+let isLoading = true
 
 if(localStorage.getItem("solution")){
     solutions = JSON.parse((localStorage.getItem("solution")))
-    console.log(solutions)
 }
 
 function fetchProblem(){
+    if(isLoading){
+        currentSolution.innerHTML = `<div class="solution-div loading">
+                                        <img class="loader" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2013/png/iconmonstr-loading-10.png&r=105&g=105&b=105" alt="loading">                         
+                                        <h4 class="loader-text">Please be patient while I'm calculating..</h4>
+                                    </div>`
+    }
     expression = encodeURIComponent(input.value)
     let operator = operation.options[operation.selectedIndex].value
     fetch(`https://newton.vercel.app/api/v2/${operator}/${expression}`)
@@ -25,24 +33,68 @@ function fetchProblem(){
         return response.json()
     })
     .then((result)=>{
+        isLoading = false
         solutions.push(result)
-        currentSolution.innerHTML = `<div class="solution-div">
+        if(!isLoading){
+            currentSolution.innerHTML = `<div class="solution-div">
                                     <h2>${result.operation} : ${result.expression}</h2>
                                     <div id="solution">${result.result}</div>
                                 </div>`
+            }
         localStorage.setItem("solution", JSON.stringify(solutions))
+        isLoading = true
     })
+    .catch((err)=>console.log(err))
 }
 
 searchBtn.addEventListener("click",()=>{
-    if(input.value != null){
+    if(input.value != ""){
         fetchProblem()
         input.value = ""
     }
     else{
-        alert("Please Enter Valid Expression!")
+        currentSolution.innerHTML =`<div class="solution-div hidebg">
+                                        <div class="model-error">
+                                        <p>Please Enter a Valid Problem.</p>
+                                        <p>"Click the button to view guidlines."</p>
+                                        <button class="viewmore">Read more !</button>
+                                        </div>
+                                        
+                                        </div>`
+        viewmore = document.querySelector(".viewmore")
+        listionviewmore()
     }
 })
+
+function closeviewmore(){
+    closebtn.addEventListener("click", ()=>{
+        currentSolution.innerHTML = ""
+    })
+}
+
+function listionviewmore(){
+    viewmore.addEventListener("click", ()=>{
+        handleViewMore()
+    })
+}
+
+function handleViewMore(){
+    currentSolution.innerHTML=`<div class="solution-div description">
+                                    <div class="close-div-sample">
+                                        <button class="close-sample"> X </button>
+                                    </div>
+                                    <h2>Math Partner A Simplified Workspace For All your Problems...</h2>
+                                    <h4>Home Page 👇 Get Start from here</h4>
+                                    <img src="https://github.com/JishnuJsm/Maths-Partner---Javascript-Project---s218np8lws6e/assets/85431819/f12fdfff-dcb5-4011-9718-4070e4673eb7" alt="No image">
+                                    <img src="https://github.com/JishnuJsm/Maths-Partner---Javascript-Project---s218np8lws6e/assets/85431819/121c5089-9a14-4604-a8dc-67ac7ecdec64" alt="No image">
+                                    <h4>Results page Looks As<h4>
+                                    <img src="https://github.com/JishnuJsm/Maths-Partner---Javascript-Project---s218np8lws6e/assets/85431819/3950b96c-db28-47af-b009-a499bd1bfe7c" alt="No image">
+                                    <h4>Also You can get previous Search results by Clicking (Saved Solution) and Delete if it was Nolonger Needed😎</h4>
+                                    <img src="https://github.com/JishnuJsm/Maths-Partner---Javascript-Project---s218np8lws6e/assets/85431819/bd57a4b1-8520-4264-97e5-cabcf33c37c5" alt="No image">
+                                </div>`
+    closebtn = document.querySelector(".close-sample")
+    closeviewmore()
+}
 
 function renderUi(){
     if(solutions.length>0){
@@ -76,11 +128,9 @@ savedBtn.addEventListener("click",()=>{
 function deleteOperation(){
     savedsolution = document.querySelectorAll(".solution-div") 
     deletebtn = document.querySelectorAll(".fa-trash-can")
-    console.log(deletebtn)
     if(deletebtn.length){
         for(let i=0; i<deletebtn.length; i++){
             deletebtn[i].addEventListener("click",()=>{
-                console.log("Delete Button Clicked at Index"+ i)
                 solutions.splice(i, 1)
                 if(solutions.length>0){
                     localStorage.setItem("solution", JSON.stringify(solutions))
@@ -114,6 +164,8 @@ const olduser = document.querySelector(".olduser")
 const newuser = document.querySelector(".newuser")
 const formdiv = document.querySelector(".form-div")
 const form = document.querySelector(".form")
+const weldiv = document.querySelector(".welcome-div")
+
 
 register.addEventListener("click", (e)=>{
     e.preventDefault()
@@ -137,9 +189,10 @@ login.addEventListener("click", (e)=>{
 
 form.addEventListener("submit", ()=>{
     formdiv.style.backgroundColor = "transparent"
-    formdiv.innerHTML = `<h2 class="loginstate">Hello ${name.value}, You ${submit.value == "SignIn" ? "Registered" : "Logged in"} Succesfully!</h2>`
+    formdiv.classList.add("hidden")
+    weldiv.style.display = "flex"
+    weldiv.innerHTML = `<h2 class="loginstate">Hello ${name.value}, You ${submit.value == "SignIn" ? "Registered" : "Logged in"} Succesfully!</h2>`
     setTimeout(()=>{
-        formdiv.classList.add("hidden")
-    },2000)
+        weldiv.style.display = "none"
+    },3000)
 })
-
