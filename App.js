@@ -41,7 +41,6 @@ function fetchProblem(){
         return response.json()
     })
     .then((result)=>{
-        console.log(result)
         isLoading = false
         solutions.push(result)
         if(!isLoading){
