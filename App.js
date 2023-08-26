@@ -5,6 +5,9 @@ const savedBtn = document.querySelector(".save-btn")
 const currentSolution = document.querySelector(".current-solutions")
 const savedSolution = document.querySelector(".solution-tab")
 const btn = document.querySelector(".close")
+const body = document.querySelector(".body")
+const loader = document.querySelector(".loadercontainerdiv")
+const logoutbtn = document.querySelector(".logbtn")
 
 let savedsolution = document.querySelectorAll(".solution-div") 
 let deletebtn = document.querySelectorAll(".fa-trash-can")
@@ -14,6 +17,11 @@ let closebtn = document.querySelector(".close-sample")
 let expression
 let solutions = []
 let isLoading = true
+let isUserLogin = {loginstatus :false, userName: ""}
+
+if(localStorage.getItem("isLogin")){
+    isUserLogin = JSON.parse(localStorage.getItem("isLogin"))
+}
 
 if(localStorage.getItem("solution")){
     solutions = JSON.parse((localStorage.getItem("solution")))
@@ -22,7 +30,7 @@ if(localStorage.getItem("solution")){
 function fetchProblem(){
     if(isLoading){
         currentSolution.innerHTML = `<div class="solution-div loading">
-                                        <img class="loader" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2013/png/iconmonstr-loading-10.png&r=105&g=105&b=105" alt="loading">                         
+                                        <img class="ansloader" src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../releases/preview/2013/png/iconmonstr-loading-10.png&r=105&g=105&b=105" alt="loading">                         
                                         <h4 class="loader-text">Please be patient while I'm calculating..</h4>
                                     </div>`
     }
@@ -33,12 +41,13 @@ function fetchProblem(){
         return response.json()
     })
     .then((result)=>{
+        console.log(result)
         isLoading = false
         solutions.push(result)
         if(!isLoading){
             currentSolution.innerHTML = `<div class="solution-div">
                                     <h2>${result.operation} : ${result.expression}</h2>
-                                    <div id="solution">${result.result}</div>
+                                    <div id="solution"><h3 class="anstitle">Solution: </h3> ${result.result}</div>
                                 </div>`
             }
         localStorage.setItem("solution", JSON.stringify(solutions))
@@ -62,7 +71,7 @@ searchBtn.addEventListener("click",()=>{
                                         
                                         </div>`
         viewmore = document.querySelector(".viewmore")
-        listionviewmore()
+        listenviewmore()
     }
 })
 
@@ -72,7 +81,7 @@ function closeviewmore(){
     })
 }
 
-function listionviewmore(){
+function listenviewmore(){
     viewmore.addEventListener("click", ()=>{
         handleViewMore()
     })
@@ -103,7 +112,7 @@ function renderUi(){
             div.classList.add("solution-div")
         
             div.innerHTML = `<h2>${e.operation} : ${e.expression}</h2>
-                              <div id="solution">${e.result}</div>
+                              <div id="solution"><h3 class="anstitle">Solution: </h3> ${e.result}</div>
                               <i class="fa-regular fa-trash-can fa-2xl"></i>`
         
             savedSolution.appendChild(div)
@@ -122,8 +131,14 @@ function renderUi(){
 savedBtn.addEventListener("click",()=>{
     savedSolution.innerHTML = ""
     document.querySelector(".saved-solution").style.display = "block"
-    renderUi()
+    loader.classList.remove('hidden')
+    let timer = setTimeout(()=>{
+        loader.classList.add('hidden')
+        renderUi()
+        clearTimeout(timer)
+    },1500)
 })
+
 
 function deleteOperation(){
     savedsolution = document.querySelectorAll(".solution-div") 
@@ -166,6 +181,10 @@ const formdiv = document.querySelector(".form-div")
 const form = document.querySelector(".form")
 const weldiv = document.querySelector(".welcome-div")
 
+if(isUserLogin.loginstatus){
+    formdiv.classList.add("hidden")
+}
+
 
 register.addEventListener("click", (e)=>{
     e.preventDefault()
@@ -175,6 +194,8 @@ register.addEventListener("click", (e)=>{
     olduser.classList.remove("hidden")
     newuser.classList.add("hidden")
     name.value = ""
+    email.value =""
+    pass.value =""
 })
 
 login.addEventListener("click", (e)=>{
@@ -185,14 +206,49 @@ login.addEventListener("click", (e)=>{
     olduser.classList.add("hidden")
     newuser.classList.remove("hidden")
     name.value = "User"
+    email.value =""
+    pass.value =""
 })
 
 form.addEventListener("submit", ()=>{
     formdiv.style.backgroundColor = "transparent"
     formdiv.classList.add("hidden")
-    weldiv.style.display = "flex"
-    weldiv.innerHTML = `<h2 class="loginstate">Hello ${name.value}, You ${submit.value == "SignIn" ? "Registered" : "Logged in"} Succesfully!</h2>`
-    setTimeout(()=>{
-        weldiv.style.display = "none"
-    },3000)
+    name.value = ""
+    email.value =""
+    pass.value =""
+    isUserLogin.loginstatus=true
+    isUserLogin.userName=name.value
+    localStorage.setItem("isLogin", JSON.stringify(isUserLogin))
 })
+
+logoutbtn.addEventListener("click", ()=>{
+    if(isUserLogin.loginstatus){
+        isUserLogin.loginstatus = false
+        isUserLogin.userName =""
+        logoutbtn.innerText = "Login"
+        logoutbtn.style.backgroundColor = "green"
+        localStorage.setItem("isLogin", JSON.stringify(isUserLogin))
+    }
+    else{
+        formdiv.classList.remove("hidden")
+        formdiv.style.backgroundColor = "rgba(0, 0, 0, 0.5)"
+        logoutbtn.innerText = "Logout"
+        logoutbtn.style.backgroundColor = "red"
+        title.innerHTML="Login"
+        namediv.classList.add("hidden")
+        submit.value = "Login"
+        olduser.classList.add("hidden")
+        newuser.classList.remove("hidden")
+        name.value = "User"
+        email.value =""
+        pass.value =""
+    }
+})
+
+
+//Loader
+let timer = setTimeout(()=>{
+    body.classList.remove('hidden')
+    loader.classList.add('hidden')
+    clearTimeout(timer)
+},2500)
