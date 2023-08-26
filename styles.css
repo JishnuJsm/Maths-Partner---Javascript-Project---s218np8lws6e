@@ -5,12 +5,49 @@
     font-family: 'Roboto', sans-serif;
 }
 
+body{
+    background-image: url("https://img.freepik.com/free-vector/mathematical-geometric-background-vector-gradient-blue-education-remix_53876-114100.jpg?w=740&t=st=1692968437~exp=1692969037~hmac=bbcff3f5054871bef94e26ac6b6b0598513b39b29dcaa5f500fa22901a5f1142");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.body{
+    min-height: 100vh;
+    backdrop-filter: blur(5px);
+}
+
+.userNav{
+    position: fixed;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 8vh;
+    padding: 10px 30px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.logbtn{
+    height: 40px;
+    width: 100px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    color: white;
+    background-color: red;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
 .welcome-div{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 15vh;
+    height: 100vh;
     display: none;
     justify-content: center;
     align-items: center;
@@ -25,17 +62,18 @@
 .title-bar{
     font-size: 1.25rem;
     font-weight: bold;
-    margin: 30px;
+    padding: 25px 30px 25px 30px;
     display: flex;
     justify-content: space-between;
+    color: #fff;
 }
 
-.title-bar button{
+.title-bar .save-btn{
     font-size: 1.5rem;
     font-weight: bold;
-    padding: 20px;
+    padding: 15px;
     color: white;
-    background-color: black;
+    background-color: #003153;
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -52,17 +90,19 @@
 .search h3{
     font-size: 1.25rem;
     font-weight: bold;
+    color: #fff;
 }
 
 .search input{
     width: 400px;
-    padding: 20px;
+    padding: 15px 20px;
     margin-top: 5px;
     font-size: 1.25rem;
     text-align: center;
-    border: none;
+    border: 0;
+    outline: 0;
     border-radius: 10px;
-    background-color: #d1d1d1;
+    background-color: #aec6cf;
 }
 
 .search input::placeholder{
@@ -72,31 +112,48 @@
 .catogory h3{
     font-size: 1.25rem;
     font-weight: bold;
+    color: #fff;
 }
 
 .catogory select{
     font-family: 'Merriweather', serif;
     letter-spacing: 2px;
     width: 200px;
-    padding: 18px;
+    padding: 15px 18px;
     margin-top: 5px;
     font-size: 1.25rem;
     font-weight: bold;
     border: none;
     border-radius: 10px;
     color: white;
-    background-color: black;
+    background-color: #003153;
     cursor: pointer;
 }
 
 .search-btn{
     margin-top: 28px;
+    color: black;
+    animation-name: float;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes float {
+    0%{
+        transform: rotate(0deg);
+    }
+    50%{
+        transform: rotate(20deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
 }
 
 .search-btn i{
     background-color: #d1d1d1;
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,7 +165,7 @@
     margin: 30px;
     min-height: 250px;
     border-radius: 15px;
-    background-color: #d1d1d1;
+    background-color: #aec6cf ;
 }
 
 .solution-div h2{
@@ -117,8 +174,13 @@
 }
 
 .solution-div #solution{
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     margin: 70px;
+}
+
+.anstitle{
+    display: inline;
+    font-size: 1.75rem;
 }
 
 .solution-div i{
@@ -210,7 +272,7 @@
 
 .viewmore:hover{
     transform: scale(1.1);
-    color: black;
+    color: wheat;
     background-color: rgba(0, 0, 0, 0.3);
     text-decoration: none;
 }
@@ -222,7 +284,7 @@
     gap: 20px;
 }
 
-.loader{
+.ansloader{
     width: 40px;
     display: inline;
     animation-name: loader;
@@ -326,6 +388,7 @@ form{
     flex-direction: column;
     min-width: 400px;
     min-height: auto;
+    background: linear-gradient(120deg, #545659, #174674);
     background-color: white;
     border: 0;
     border-radius: 10px;
@@ -333,7 +396,7 @@ form{
 }
 
 .form-title{
-    color:grey;
+    color:#000000;
     font-weight: bold;
     font-size: 25px;
     text-align: center;
@@ -360,11 +423,14 @@ form input{
     width: 100%;
     height: 40px;
     border: 0;
+    outline: 0;
     padding: 10px;
     font-size: medium;
     border-radius: 5px;
+    background: linear-gradient(270deg, #545659, #174674);
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
     margin-top: 10px;
+    color: wheat;
 }
 
 #submit{
@@ -376,8 +442,16 @@ form input{
     padding: 0;
     border-radius: 5px;
     cursor: pointer;
-    background-color:grey;
-    color: white;
+    color: wheat;
+    transition: all 0.2s ease-in-out;
+}
+
+#submit:hover{
+    transform: scale(1.05);
+}
+
+#submit:active{
+    transform: scale(0.9);
 }
 
 .login-text{
@@ -391,24 +465,64 @@ form input{
 
 a{
     text-decoration: none;
-    color: grey;
-}
-.loginstate{
-    position: absolute;
-    top: 5%;
-    background-color: transparent;
-    color: green;
-    font-size: 20px;
-    animation-name: result;
-    animation-duration: 3s;
-    animation-delay: 1s;
+    color: wheat;
 }
 
-@keyframes result {
-    0%{
-        transform: scale(1);
+
+/* Loader */
+.loadercontainerdiv{
+    position: fixed;
+    top: 33%;
+    left: 35%;
+    z-index: 9;
+    max-height: 100vh;
+    max-width: 100%;
+}
+
+.loadercontainer {
+    width: 300px;
+    height: 300px;
+}
+
+.loader {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    margin: auto;
+    height: 90%;
+    font-size: 20px;
+    font-family: arial;
+    width: 90%;
+    margin: auto auto;
+    border-radius: 50%;
+    border-right: 9px solid rgba(253,245,230,0.8);
+    animation: spinning 20s linear infinite;
+}
+@keyframes spinning {
+    0% {
+        transform: rotate(0deg);
+        border-right: 9px solid rgba(253,245,230,0.6);
     }
-    100%{
-        transform: scale(0);
+    5% {border-right-color: rgba(253,245,230,0.4)}
+    10% {border-right-color: rgba(253,245,2304,0.6)}
+    15% {border-right-color: rgba(253,245,230,0.4)}
+    20% {border-right-color: rgba(253,245,230,0.6)}
+    25% {border-right-color: rgba(253,245,230,0.4)}
+    30% {border-right-color: rgba(253,245,230,0.6)}
+    35% {border-right-color: rgba(253,245,230,0.4)}
+    40% {border-right-color: rgba(253,245,230,0.6)}
+    45% {border-right-color: rgba(253,245,230,0.4)}
+    50% {border-right-color: rgba(253,245,230,0.6)}
+    55% {border-right-color: rgba(253,245,230,0.4)}
+    60% {border-right-color: rgba(253,245,230,0.6)}
+    65% {border-right-color: rgba(253,245,230,0.4)}
+    70% {border-right-color: rgba(253,245,230,0.6)}
+    75% {border-right-color: rgba(253,245,230,0.4)}
+    80% {border-right-color: rgba(253,245,230,0.6)}
+    85% {border-right-color: rgba(253,245,230,0.4)}
+    90% {border-right-color: rgba(253,245,230,0.6)}
+    95% {border-right-color: rgba(253,245,230,0.4)}
+    100% {
+        transform: rotate(360deg);
+        border-right: 9px solid rgba(253,245,230,0.6);
     }
 }
